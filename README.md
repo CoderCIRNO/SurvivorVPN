@@ -1,1 +1,3 @@
 # AutoShadowSocketDeployer
+
+自用
