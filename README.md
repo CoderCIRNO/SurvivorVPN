@@ -1,3 +1,3 @@
-# AutoShadowSocketDeployer
+# SurviverVPN
 
 自用
