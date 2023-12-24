@@ -1,3 +1,13 @@
 # SurviverVPN
 
 自用
+
+## brief
+
+SurvivorVPN是shadowSockets服务的一套自动化部署脚本，能够在ss服务器ip被ban时自动换ip，其主要流程如下：
+
+服务器在部署了ss服务后，周期性ping国内ip以检查封锁情况；在被封锁的情况下通过API向云服务提供商（以vultr为例）自动申请新的实例，新实例通过pingServer通知旧ss服务器自身是否可用，且ss服务会通过bootScript在新实例上自动部署。如新实例可用，则通过cloudFlare API将域名DNS解析到新实例的公网ip上。最后释放掉所有无效实例（包括新申请的无效实例和旧的ss服务器）。
+
+由于vultr是按实例运行时间计费，成本相当可控。这套脚本目前尚在不断地测试与改良中，最终目标是真正实现低成本，免维护，高可用。
+
+api配置与ss配置均应在bootScriptTemplate中完成，切记不要将任何API相关私有信息公布到网络。暂时懒得写更详细的部署说明。

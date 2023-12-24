@@ -199,7 +199,8 @@ def RegularCheck():
             instantIP = instant["main_ip"]
             if instantIP == currentDNSRecordIP:
                 selfInstanceID = instant["id"]
-        createCount = 0
+        createCount    = 0
+        respawnSuccess = False
         while createCount < MaxCreateInstanceCount:
             createCount += 1
             newInstance = CreateInstance()
@@ -213,6 +214,7 @@ def RegularCheck():
             if pingResult > 0:
                 print(f'Change aim DNS record to {newInstanceIP}, tried count {createCount}')
                 UpdateAimDNSRecord(newInstanceIP)
+                respawnSuccess = True
                 break
             else:
                 # We should keep this invalid instance alive by now, in case of getting this banned ip again & again...
@@ -221,8 +223,11 @@ def RegularCheck():
         print("Destroy invalid instances...")
         for instance in InvalidInstantList:
             DestroyInstance(instance)
-    print(f"{getTime()} RegularCheck End! Self Destroying, good bye...")
-    DestroyInstance(selfInstanceID)
+        if True == respawnSuccess:
+            print(f"{getTime()} RegularCheck End! Self Destroying, good bye...")
+            DestroyInstance(selfInstanceID)
+        else:
+            print(f"{getTime()} Created max instance count but failed, maybe next time...")
 
 # debugZone
 
