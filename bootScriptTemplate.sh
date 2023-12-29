@@ -11,13 +11,13 @@ cat > pingServer.sh<<-EOF
 PingServerPort=
 PingServerToken=""
 PingAim=""
-sudo firewall-cmd --zone=public --add-port=$PingServerPort/tcp --permanent
-firewall-cmd --reload
+systemctl stop firewalld
 export PingServerPort
 export PingServerToken
 export PingAim
 cd ~/SurvivorVPN
 python3 pingServer.py >> ~/pingServer.log
+systemctl start firewalld
 EOF
 
 ./pingServer.sh
