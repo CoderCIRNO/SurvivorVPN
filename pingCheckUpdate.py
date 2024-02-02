@@ -158,8 +158,8 @@ def DestroyInstance(instanceID):
     }
     url = f'https://api.vultr.com/v2/instances/{instanceID}'
     res = requests.delete(url=url, headers=headers)
-    data = json.loads(res.text)
-    print(f'{json.dumps(data, indent=4)}\n')
+    # data = json.loads(res.text)
+    # print(f'{json.dumps(data, indent=4)}\n')
 
 def ListStartUpScripts():
     headers = {
