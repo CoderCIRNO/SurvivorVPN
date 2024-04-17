@@ -58,6 +58,11 @@ def SelfPingCheck():
     pingResult = pingResult[:pingResult.find('received') - 1]
     return int(pingResult)
 
+def GetPublicIP():
+    response = requests.get('https://api.ipify.org?format=json')
+    data = response.json()
+    return data['ip']
+
 def ListDNSRecords():
     print('Try get DNS records list...')
     headers = {
@@ -185,12 +190,17 @@ def RegularCheck():
     print(f"{getTime()} Start RegularCheck...")
     aimDNSRecordDatail = GetAimDNSRecordDetail()
     currentDNSRecordIP = aimDNSRecordDatail["result"]["content"]
+    currentIP = GetPublicIP()
     # currentDNSRecordIP also means self IP addr
     print(f'Current DNS record ip is {currentDNSRecordIP}')
     pingResult = SelfPingCheck()
     print(f'Ping success count = {pingResult}')
     if pingResult > 0:
-        print("Current IP is valid, exit.")
+        if currentIP != currentDNSRecordIP:
+            UpdateAimDNSRecord(currentIP)
+            print("Current IP is valid, but DNS using other IP, so change it")
+        else:
+            print("Current IP is valid, exit.")
         return
     else:
         print("Current IP is banned possiably, creat new one")
