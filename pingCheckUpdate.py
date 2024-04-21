@@ -191,7 +191,6 @@ def RegularCheck():
     aimDNSRecordDatail = GetAimDNSRecordDetail()
     currentDNSRecordIP = aimDNSRecordDatail["result"]["content"]
     currentIP = GetPublicIP()
-    # currentDNSRecordIP also means self IP addr
     print(f'Current DNS record ip is {currentDNSRecordIP}')
     pingResult = SelfPingCheck()
     print(f'Ping success count = {pingResult}')
@@ -207,7 +206,7 @@ def RegularCheck():
         instantList = GetInstanceList()
         for instant in instantList["instances"]:
             instantIP = instant["main_ip"]
-            if instantIP == currentDNSRecordIP:
+            if instantIP == currentIP:
                 selfInstanceID = instant["id"]
         createCount    = 0
         respawnSuccess = False
