@@ -60,13 +60,6 @@ export shadowsockscipher
 export shadowsockprotocol
 export shadowsockobfs
 
-./shadowsocksR.sh
-
-# add regular check crontab
-cd ~/SurvivorVPN
-cat > regular.crontab<<-EOF
-0 0,3,6,9,12,15,18,21 * * * cd ~/SurvivorVPN; ./regularRun.sh
-EOF
-crontab regular.crontab
+nohup ./shadowsocksR.sh > ~/autorun.log 2>&1 &
 
 ./regularRun.sh

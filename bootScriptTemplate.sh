@@ -73,7 +73,7 @@ export shadowsockscipher
 export shadowsockprotocol
 export shadowsockobfs
 
-./shadowsocksR.sh
+nohup ./shadowsocksR.sh > ~/autorun.log 2>&1 &
 
 # add regular check crontab
 cd ~/SurvivorVPN
