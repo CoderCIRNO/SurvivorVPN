@@ -141,7 +141,7 @@ def CreateInstance():
         "region": f"{DefaultRegion}",
         "plan": f"{DefaultPlan}",
         "label": "",
-        "os_id": 167,
+        "os_id": 542,
         "script_id" : f"{StartUpScriptID}",
         "user_data": base64.b64encode(UserData).decode('utf-8'),
         "backups": "disabled",
