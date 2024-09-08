@@ -153,26 +153,26 @@ pre_install(){
 # Download files
 download_files(){
     # Download libsodium file
-    while ! wget --no-check-certificate -O ${libsodium_file}.tar.gz ${libsodium_url}; do
-        echo -e "[${red}Error${plain}] Failed to download ${libsodium_file}.tar.gz!"
-        sleep 1
-    done
-    # Download ShadowsocksR file
-    while ! wget --no-check-certificate -O ${shadowsocks_r_file}.tar.gz ${shadowsocks_r_url}; do
-        echo -e "[${red}Error${plain}] Failed to download ShadowsocksR file!"
-        sleep 1
-    done
+    # while ! wget --no-check-certificate -O ${libsodium_file}.tar.gz ${libsodium_url}; do
+    #     echo -e "[${red}Error${plain}] Failed to download ${libsodium_file}.tar.gz!"
+    #     sleep 1
+    # done
+    # # Download ShadowsocksR file
+    # while ! wget --no-check-certificate -O ${shadowsocks_r_file}.tar.gz ${shadowsocks_r_url}; do
+    #     echo -e "[${red}Error${plain}] Failed to download ShadowsocksR file!"
+    #     sleep 1
+    # done
     # Download ShadowsocksR init script
     if check_sys packageManager yum; then
-        if ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR -O /etc/init.d/shadowsocks; then
+        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR -O /etc/init.d/shadowsocks; do
             echo -e "[${red}Error${plain}] Failed to download ShadowsocksR chkconfig file!"
-            exit 1
-        fi
+            sleep1
+        done
     elif check_sys packageManager apt; then
-        if ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR-debian -O /etc/init.d/shadowsocks; then
+        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR-debian -O /etc/init.d/shadowsocks; do
             echo -e "[${red}Error${plain}] Failed to download ShadowsocksR chkconfig file!"
             exit 1
-        fi
+        done
     fi
 }
 
@@ -299,7 +299,7 @@ install_shadowsocksr(){
         firewall_set
     fi
     install
-    install_cleanup
+    # install_cleanup
 }
 
 # Initialization step
