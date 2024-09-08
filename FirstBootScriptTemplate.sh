@@ -80,6 +80,7 @@ cp envParams deployVPN.sh
 chmod +x deployVPN.sh
 
 cat shadowsocksR.sh >> deployVPN.sh
+rm shadowsocksR.sh
 
 nohup ./deployVPN.sh >> ~/deployVPNOutput.log 2>&1 &
 

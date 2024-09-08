@@ -153,15 +153,15 @@ pre_install(){
 # Download files
 download_files(){
     # Download libsodium file
-    if ! wget --no-check-certificate -O ${libsodium_file}.tar.gz ${libsodium_url}; then
+    while ! wget --no-check-certificate -O ${libsodium_file}.tar.gz ${libsodium_url}; do
         echo -e "[${red}Error${plain}] Failed to download ${libsodium_file}.tar.gz!"
-        exit 1
-    fi
+        sleep 1
+    done
     # Download ShadowsocksR file
-    if ! wget --no-check-certificate -O ${shadowsocks_r_file}.tar.gz ${shadowsocks_r_url}; then
+    while ! wget --no-check-certificate -O ${shadowsocks_r_file}.tar.gz ${shadowsocks_r_url}; do
         echo -e "[${red}Error${plain}] Failed to download ShadowsocksR file!"
-        exit 1
-    fi
+        sleep 1
+    done
     # Download ShadowsocksR init script
     if check_sys packageManager yum; then
         if ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR -O /etc/init.d/shadowsocks; then
