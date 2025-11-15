@@ -238,8 +238,10 @@ install(){
     # Install libsodium
     if [ ! -f /usr/lib/libsodium.a ]; then
         cd ${cur_dir}
+        echo `pwd`
         tar zxf ${libsodium_file}.tar.gz
         cd ${libsodium_file}
+        echo `pwd`
         ./configure --prefix=/usr && make && make install
         if [ $? -ne 0 ]; then
             echo -e "[${red}Error${plain}] libsodium install failed!"
@@ -285,8 +287,7 @@ install(){
 
 # Install cleanup
 install_cleanup(){
-    cd ${cur_dir}
-    rm -rf ${shadowsocks_r_file}.tar.gz ${shadowsocks_r_file} ${libsodium_file}.tar.gz ${libsodium_file}
+    echo clean
 }
 
 # Install ShadowsocksR
