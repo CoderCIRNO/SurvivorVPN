@@ -164,12 +164,12 @@ download_files(){
     # done
     # Download ShadowsocksR init script
     if check_sys packageManager yum; then
-        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR -O /etc/init.d/shadowsocks; do
+        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR -O /usr/sbin/shadowsocks; do
             echo -e "[${red}Error${plain}] Failed to download ShadowsocksR chkconfig file!"
-            sleep1
+            sleep 1
         done
     elif check_sys packageManager apt; then
-        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR-debian -O /etc/init.d/shadowsocks; do
+        while ! wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR-debian -O /usr/sbin/shadowsocks; do
             echo -e "[${red}Error${plain}] Failed to download ShadowsocksR chkconfig file!"
             exit 1
         done
@@ -180,14 +180,14 @@ download_files(){
 firewall_set(){
     echo -e "[${green}Info${plain}] firewall set start..."
     if centosversion 6; then
-        /etc/init.d/iptables status > /dev/null 2>&1
+        /usr/sbin/iptables status > /dev/null 2>&1
         if [ $? -eq 0 ]; then
             iptables -L -n | grep -i ${shadowsocksport} > /dev/null 2>&1
             if [ $? -ne 0 ]; then
                 iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport ${shadowsocksport} -j ACCEPT
                 iptables -I INPUT -m state --state NEW -m udp -p udp --dport ${shadowsocksport} -j ACCEPT
-                /etc/init.d/iptables save
-                /etc/init.d/iptables restart
+                /usr/sbin/iptables save
+                /usr/sbin/iptables restart
             else
                 echo -e "[${green}Info${plain}] port ${shadowsocksport} has been set up."
             fi
@@ -254,14 +254,14 @@ install(){
     tar zxf ${shadowsocks_r_file}.tar.gz
     mv ${shadowsocks_r_file}/shadowsocks /usr/local/
     if [ -f /usr/local/shadowsocks/server.py ]; then
-        chmod +x /etc/init.d/shadowsocks
+        chmod +x /usr/sbin/shadowsocks
         if check_sys packageManager yum; then
             chkconfig --add shadowsocks
             chkconfig shadowsocks on
         elif check_sys packageManager apt; then
             update-rc.d -f shadowsocks defaults
         fi
-        /etc/init.d/shadowsocks start
+        /usr/sbin/shadowsocks start
 
         clear
         echo

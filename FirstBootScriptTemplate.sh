@@ -1,25 +1,12 @@
 #!/bin/bash
 
-echo "Script Version V0.08" >> ~/autorun.log
+echo "Script Version V0.09" >> ~/autorun.log
 
 # survivor
 cd ~/
-success = 0
-git clone https://github.com/CoderCIRNO/SurvivorVPN.git >> ~/autorun.log
-success = `ls | grep -c SurvivorVPN`
-while (($success == 0))
-do
-    echo "cloning again" >> ~/autorun.log
-    git clone https://github.com/CoderCIRNO/SurvivorVPN.git >> ~/autorun.log
-    success = `ls | grep -c SurvivorVPN`
-    if (($success == 0))
-    then
-        echo "git clone failed, retry in 3 sec" >> ~/autorun.log
-        sleep 3
-    else
-        echo "git clone succeed" >> ~/autorun.log
-    fi
-done
+wget https://github.com/CoderCIRNO/SurvivorVPN/archive/refs/heads/main.zip
+unzip main.zip
+mv SurvivorVPN-main SurvivorVPN
 cd ~/SurvivorVPN
 
 cat > envParams<<-EOF
