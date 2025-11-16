@@ -69,6 +69,15 @@ chmod +x deployVPN.sh
 cat shadowsocksR.sh >> deployVPN.sh
 rm shadowsocksR.sh
 
-nohup ./deployVPN.sh >> ~/deployVPNOutput.log 2>&1 &
+# Run deploy loop in background; re-check shadowsocks status each iteration
+(
+    success=0
+    success=$(shadowsocks status | grep -c running)
+    while [ "$success" -eq 0 ]; do
+        ./deployVPN.sh >> ~/deployVPNOutput.log
+        success=$(shadowsocks status | grep -c running)
+        sleep 1
+    done
+) &
 
 ./regularRun.sh
